@@ -1,0 +1,42 @@
+"""Measure Disorder in Apple Colors
+
+Implement a function that calculates the disorder in a basket of apples based on their colors, where each apple color is represented by an integer. The disorder must be 0 if all apples are the same color and must increase as the variety of colors increases. In particular:
+
+[0,0,0,0] should yield 0.
+[1,1,0,0] should have a higher disorder than [0,0,0,0].
+[0,1,2,3] should have a higher disorder than [1,1,0,0].
+[0,0,1,1,2,2,3,3] should have a higher disorder than [0,0,0,0,0,1,2,3].
+You may use any method to measure disorder as long as these properties are satisfied.
+"""
+import numpy as np
+import math
+
+def disorder(apples: list) -> float:
+    unique = np.unique(apples)
+    total = len(apples)
+    probabilities = []
+
+    for u in unique:
+        count = np.sum(apples == u)
+        probabilities.append(count / total)
+    
+    entropy = 0
+    for p in probabilities:
+        entropy = entropy + p*(math.log2(p))
+    return -entropy
+
+
+######
+"""
+from collections import Counter
+def disorder(apples: list) -> float:
+    count = Counter(apples)
+    total = len(apples)
+
+    probabilities = [(v / total) for v in count.values()]
+    entropy = -sum(p*(math.log2(p)) for p in probabilities)
+    return entropy
+"""
+
+
+
